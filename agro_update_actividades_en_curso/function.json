@@ -1,0 +1,13 @@
+{
+  "bindings": [
+    {
+      "name": "mytimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "* * * * *",
+      "runOnStartup": true
+    }
+  ],
+  "scriptFile": "__init__.py",
+  "entryPoint": "agro_update_actividades_en_curso"
+}

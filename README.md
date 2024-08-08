@@ -78,14 +78,11 @@ procesos que se reflejan en una aplicación que se alimenta de dicha base de dat
 
 ## Ejecución de Cronjobs
 
-Para ejecutar los cronjobs, debes configurar los scripts `.sh` proporcionados en el directorio `scripts/`. Cada
-script `.sh` corresponde a un cronjob específico y contiene la configuración necesaria para ejecutar el cronjob en
-intervalos específicos.
+Para ejecutar los cronjobs, debes configurar y ejecutar los scripts `.sh` proporcionados en el directorio `scripts/`.
+Cada script `.sh` corresponde a un cronjob específico y contiene la configuración necesaria para ejecutar el cronjob en
+intervalos específicos. El comando para la ejecución de un cronjob es el siguiente: `/bin/sh/ <NOMBRE_DEL_SCRIPT>.sh`.
 
-### Importante
-
-Es necesario especificar una fecha mayor a la actual en cada uno de los scripts `.sh` de los cronjobs. Asegúrate de
-modificar la línea de configuración de fecha en cada script para reflejar una fecha y hora futuras.
+```sh
 
 ### Ejemplo de Script `.sh`
 
@@ -94,6 +91,27 @@ Supongamos que tienes un script llamado `set_agro_update_id_estado_actividad.sh`
 ```sh
 #!/bin/bash
 
-# Configuración de cronjob específica para actualizar el estado de actividad
-source /path/to/your/project/venv/bin/activate
-python /path/to/your/project/cronjobs/set_agro_update_id_estado_actividad.py >> /path/to/your/project/logs/set_agro_update_id_estado_actividad.log 2>&1
+# Obtén el directorio del script actual
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$SCRIPT_DIR/.."
+CRONJOBS_DIR="$PROJECT_DIR/cronjobs"
+
+# Configuración de cronjob recurrente
+CRON_SCHEDULE="* * * * *"  # Cada minuto
+SCRIPT_PATH="$CRONJOBS_DIR/agro_update_id_estado_actividad.py"
+ENV_PATH="$PROJECT_DIR/venv"
+LOG_PATH="$PROJECT_DIR/logs/agro_update_id_estado_actividad.log"
+
+# Crear directorio de logs si no existe
+mkdir -p "$(dirname "$LOG_PATH")"
+
+# Ejecutar el script inmediatamente
+export PYTHONPATH="$PROJECT_DIR"
+source $ENV_PATH/bin/activate
+python $SCRIPT_PATH >> $LOG_PATH 2>&1
+deactivate
+
+# Añadir cronjob recurrente
+(crontab -l ; echo "$CRON_SCHEDULE export PYTHONPATH=\"$PROJECT_DIR\" && source $ENV_PATH/bin/activate && python $SCRIPT_PATH >> $LOG_PATH 2>&1 && deactivate") | crontab -
+
+echo "Cronjob recurrente configurado e iniciado inmediatamente."

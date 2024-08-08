@@ -60,3 +60,4 @@ dmypy.json
 .pyre/
 
 *.pyc
+.env

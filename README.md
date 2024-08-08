@@ -48,6 +48,34 @@ procesos que se reflejan en una aplicación que se alimenta de dicha base de dat
     DB_NAME=<nombre_de_la_base_de_datos>
     ```
 
+5. Otorga permisos de ejecución a los scripts `.sh`:
+    ```sh
+    chmod +x scripts/*.sh
+    ```
+
+6. Instala el comando `at` (si no está instalado):
+
+   ### En Ubuntu/Debian:
+    ```sh
+    sudo apt-get update
+    sudo apt-get install at
+    ```
+
+   ### En CentOS/RHEL:
+    ```sh
+    sudo yum install at
+    ```
+
+   ### En Fedora:
+    ```sh
+    sudo dnf install at
+    ```
+
+   ### En Arch Linux:
+    ```sh
+    sudo pacman -S at
+    ```
+
 ## Ejecución de Cronjobs
 
 Para ejecutar los cronjobs, debes configurar los scripts `.sh` proporcionados en el directorio `scripts/`. Cada

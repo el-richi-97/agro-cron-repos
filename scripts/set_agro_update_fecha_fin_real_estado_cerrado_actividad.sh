@@ -15,7 +15,7 @@ LOG_PATH="$PROJECT_DIR/logs/agro_update_fecha_fin_real_estado_cerrado_actividad.
 mkdir -p "$(dirname "$LOG_PATH")"
 
 # Fecha y hora de inicio en formato 'YYYY-MM-DD HH:MM' (ajusta la fecha y hora según sea necesario)
-START_DATETIME="2024-08-07 00:00"
+START_DATETIME="2024-08-08 09:00"
 
 # Detectar sistema operativo y convertir fecha y hora de inicio a un formato manejable
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
